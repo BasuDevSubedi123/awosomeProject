@@ -5,9 +5,12 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Alert,
+  Button,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,94 +28,62 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+ const [background , setbackground] = useState ('#ffffff')
+ const [buttonbackground , setbuttonbackground] = useState ('#ffffff')
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const buttonpress = () =>{
+    const character = '0123456789ABCDE'
+    var bgcolor ="#"
+    var buttonbgcolor ="#"
+
+    for(let i=0 ;i< 6 ; i++ ){
+      var randomIndex = Math.floor(Math.random()* 16 )
+       var randomIndexbutton = Math.floor(Math.random()* 16 )
+      bgcolor += character[randomIndex]
+       buttonbgcolor += character[randomIndexbutton]
+    }
+
+    setbuttonbackground(buttonbgcolor);
+    setbackground(bgcolor);
+  }
+
+
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView>
+        <View style = {[styles.mainContainer, {backgroundColor : background}]}>
+          <View style = {styles.actionContainer}>
+            <Pressable
+             style = {[styles.button, {backgroundColor: buttonbackground}]}
+              onPress={buttonpress}
+            >  
+              <Text>Change Backgorund</Text>
+              </Pressable>
+          </View>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  mainContainer: {
+    justifyContent:'center',
+    alignItems:'center',
+    height : 840,
+    borderWidth : 2 
+   },
+  actionContainer:{},
+  button:{
+    borderWidth:2,
+    backgroundColor : "515141",
+    height : 70,
+    width:170, 
+    justifyContent : 'center',
+    alignItems:'center', 
+    borderRadius : 10, 
+   }, 
 });
 
 export default App;
